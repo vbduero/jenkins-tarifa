@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.10'   // Imagen oficial de Python con pip incluido
-        }
-    }
+    agent any
 
     stages {
         stage('Checkout') {
@@ -14,15 +10,17 @@ pipeline {
 
         stage('Instalar dependencias') {
             steps {
-                sh 'pip install --upgrade pip'
-                sh 'pip install -r requirements.txt || true'
+                sh '''
+                    which pip3 || (apt update && apt install -y python3-pip)
+                    pip3 install --upgrade pip
+                    pip3 install -r requirements.txt || true
+                '''
             }
         }
 
         stage('Ejecutar pruebas') {
             steps {
-                echo "Ejecutando tests con unittest"
-                sh 'python -m unittest test_calcular_tarifa.py'
+                sh 'python3 -m unittest test_calcular_tarifa.py'
             }
         }
     }
