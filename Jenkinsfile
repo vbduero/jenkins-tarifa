@@ -1,24 +1,28 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.10'   // Imagen oficial de Python con pip incluido
+        }
+    }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/vbduero/jenkins-tarifa.git'
+                git 'https://github.com/vbduero/jenkins-tarifa.git'
             }
         }
 
         stage('Instalar dependencias') {
             steps {
-                sh 'python3 -m pip install --upgrade pip'
-                sh 'pip3 install -r requirements.txt || true'  // por si no tienes dependencias
+                sh 'pip install --upgrade pip'
+                sh 'pip install -r requirements.txt || true'
             }
         }
 
         stage('Ejecutar pruebas') {
             steps {
                 echo "Ejecutando tests con unittest"
-                sh 'python3 -m unittest test_calcular_tarifa.py'
+                sh 'python -m unittest test_calcular_tarifa.py'
             }
         }
     }
