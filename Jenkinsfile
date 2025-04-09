@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/vbduero/jenkins-tarifa.git'
+                git branch: 'main', url: 'https://github.com/vbduero/jenkins-tarifa.git'
             }
         }
 
@@ -35,3 +35,4 @@ pipeline {
         }
     }
 }
+
