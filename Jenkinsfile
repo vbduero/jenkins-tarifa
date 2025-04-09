@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clonar repositorio') {
             steps {
-                git 'https://github.com/vbduero/jenkins-tarifa.git'
+                git branch: 'main', url: 'https://github.com/vbduero/jenkins-tarifa.git'
             }
         }
 
